@@ -3,6 +3,8 @@ Fixed-Burget Online Adaptive Learning for PINNs
 
 The data and code for the paper [Nguyen, T. N. K., Dairay, T., Meunier, R., Millet, C., & Mougeot, M. (2022). Fixed-budget online adaptive learning for physics-informed neural networks. Towards parameterized problem inference. arXiv preprint arXiv:2212.11776.](https://arxiv.org/pdf/2212.11776.pdf).
 
+![My Image](simple_animation_burgers.gif) ![My Image](simple_animation_wave.gif)
+
 ## Code
 In non-parameterized case:
 - [Burgers’ equation](example/non-parameterized/burgers)
