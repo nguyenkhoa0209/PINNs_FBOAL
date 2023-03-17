@@ -4,6 +4,7 @@ Fixed-Burget Online Adaptive Learning (FBOAL) for Physics-Informed Neural Networ
 The data and code for the paper [Nguyen, T. N. K., Dairay, T., Meunier, R., Millet, C., & Mougeot, M. (2022). Fixed-budget online adaptive learning for physics-informed neural networks. Towards parameterized problem inference. arXiv preprint arXiv:2212.11776.](https://arxiv.org/pdf/2212.11776.pdf).
 
 ## Basic usage
+
 We provide a package for calling PINNs model with (or without) adaptive sampling methods (FBOAL, RARD, RAD).
 ```
 model = PINNs(param_pde, X_domain, X_colloc, w_pde, net_transform, net_pde_user, layers, lr, thres,
@@ -13,9 +14,11 @@ model = PINNs(param_pde, X_domain, X_colloc, w_pde, net_transform, net_pde_user,
                  m_FBOAML=None, square_side_FBOAML=None, k_RAD=None, c_RAD=None, k_RARD=None, c_RARD=None, m_RARD=None)
 ```
 #### Example on Burgers equation
+
 We take an example on Burgers equation and consider the non-parametric case (i.e. the parameter of the PDE is fixed):
 
 ![My Image](images/burgers_sol_github.png) 
+
 First, we define the PDE:
 ```
 def f_user(X_f, nu, model_nn):
