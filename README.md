@@ -13,13 +13,16 @@ model = PINNs(param_pde, X_domain, X_colloc, w_pde, net_transform, net_pde_user,
                  resampling=None, period=None, save_colloc=False,
                  m_FBOAML=None, square_side_FBOAML=None, k_RAD=None, c_RAD=None, k_RARD=None, c_RARD=None, m_RARD=None)
 ```
+
 #### Example on Burgers equation
 
 We take an example on Burgers equation and consider the non-parametric case (i.e. the parameter of the PDE is fixed):
 
-![My Image](images/burgers_sol_github.png) 
+<img align="center" src="https://user-images.githubusercontent.com/50335341/225834360-ec2c9894-794d-4644-9a17-4e0bd6cf1e59.png" alt="alt text" width="400" height="300">
+
 
 First, we define the PDE:
+
 ```
 def f_user(X_f, nu, model_nn):
     x_temp = X_f[:, 0:1]
@@ -50,17 +53,12 @@ model = PINNs(nu_train, X_star, X_colloc_train, w_pde, net_transform, f_user,
                  resampling='FBOAML', period=1000, save_colloc=False, m_FBOAML=10, square_side_FBOAML=0.2)
 model.train(max_epochs=5000)
 ```
-![My Image](images/simple_animation_burgers.gif)
+The colloctions points during the training will be adaptively located where there is important error for the PDE residuals:
+
+<img align="center" src="https://user-images.githubusercontent.com/50335341/225835289-8ccc9d0e-89a1-4034-9fc5-a96aedf8c5b0.gif">
+
 
 For the parametric case where the PDE parameter is considered as an input of PINNs, the syntax remains the same with little modification in the `f_user` as now `nu_temp=X_f[:, 2:3]`
-## Code
-In non-parameterized case:
-- [Burgers’ equation](example/non-parameterized/burgers)
-- [Wave equation](example/non-parameterized/wave)
-
-In parameterized case:
-- [Burgers’ equation](example/parameterized/burgers)
-- [Wave equation](example/parameterized/wave)
 
 ## Cite this work
 
