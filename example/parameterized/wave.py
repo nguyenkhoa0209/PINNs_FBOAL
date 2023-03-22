@@ -5,7 +5,7 @@ import time
 from math import *
 import tensorflow as tf
 import sys
-sys.path.append('../../main/')
+sys.path.append('../../fboal/')
 
 tf.keras.backend.set_floatx('float32')
 tf.get_logger().setLevel('ERROR')

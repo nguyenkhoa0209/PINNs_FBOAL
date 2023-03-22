@@ -1,0 +1,18 @@
+[REPORTS]
+output-format=colorized
+
+[FORMAT]
+good-names=X,Xs,Xt,y,ys,yt,i,j,k
+
+[MESSAGES CONTROL]
+disable=
+    bad-continuation,
+    logging-fstring-interpolation,
+    too-few-public-methods,
+    too-many-ancestors,
+    too-many-arguments,
+    too-many-instance-attributes,
+    too-many-locals,
+    too-many-public-methods,
+    W0201,
+    C0116
