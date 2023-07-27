@@ -59,7 +59,7 @@ Then we define the supervised points (optional) and initialize the collocation p
 ```
 model = PINNs(nu_train, X_star, X_colloc_train, w_pde, net_transform, f_user,
                          layers, lr, thres, X_test=X_test, u_test=u_test,
-                 resampling='FBOAML', period=1000, save_colloc=False, m_FBOAML=10, square_side_FBOAML=0.2)
+                 resampling='FBOAL', period=1000, save_colloc=False, m_FBOAL=10, square_side_FBOAL=0.2)
 model.train(max_epochs=5000)
 ```
 The colloctions points during the training will be adaptively located where there is important error for the PDE residuals:
