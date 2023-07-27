@@ -1,7 +1,7 @@
 # FBOAL
 Fixed-Burget Online Adaptive Learning (FBOAL) for Physics-Informed Neural Networks (PINNs)
 
-The data and code for the paper [Nguyen, T. N. K., Dairay, T., Meunier, R., Millet, C., & Mougeot, M. (2022). Fixed-budget online adaptive learning for physics-informed neural networks. Towards parameterized problem inference. arXiv preprint arXiv:2212.11776.](https://arxiv.org/pdf/2212.11776.pdf).
+The data and code for the paper [Nguyen, T.N.K., Dairay, T., Meunier, R., Millet, C. and Mougeot, M., 2023, June. Fixed-Budget Online Adaptive Learning for Physics-Informed Neural Networks. Towards Parameterized Problem Inference. In International Conference on Computational Science (pp. 453-468). Cham: Springer Nature Switzerland](https://link.springer.com/chapter/10.1007/978-3-031-36027-5_36)
 
 ## Basic usage
 
