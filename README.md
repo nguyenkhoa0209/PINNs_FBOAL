@@ -6,6 +6,15 @@ The data and code for the paper [Nguyen, T. N. K., Dairay, T., Meunier, R., Mill
 ## Basic usage
 
 We provide a package for calling PINNs model with (or without) adaptive sampling methods (FBOAL, RARD, RAD).
+
+To install the package:
+```
+!git clone https://github.com/nguyenkhoa0209/PINNs_FBOAL
+from fboal import pinns, adapt_sampling
+from pinns import *
+from adapt_sampling import *
+```
+To call a PINNs model:
 ```
 model = PINNs(param_pde, X_domain, X_colloc, w_pde, net_transform, net_pde_user, layers, lr, thres,
                  X_bc=None, u_bc=None, X_init=None, u_init=None, X_data=None, u_data=None,
