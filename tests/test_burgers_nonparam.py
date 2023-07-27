@@ -73,3 +73,30 @@ def test_nonparam_classic():
     prediction_classic = net_transform(X_star, model_classic.net_u)
     error_classic = np.linalg.norm(prediction_classic - u_star) / np.linalg.norm(u_star)
     assert error_classic < 1
+
+def test_nonparam_fboal():
+    model_fboal = PINNs(nu_train, X_star, X_colloc_train, w_pde, net_transform, f_user,
+                         layers, lr, thres, X_test=X_test, u_test=u_test,
+                 resampling='FBOAL', period=100, save_colloc=False, m_FBOAML=10, square_side_FBOAML=0.2)
+    model_fboal.train(max_epochs=500)
+    prediction_fboal = net_transform(X_star, model_fboal.net_u)
+    error_fboal = np.linalg.norm(prediction_fboal - u_star) / np.linalg.norm(u_star)
+    assert error_fboal < 1
+
+def test_nonparam_rad():
+    model_rad = PINNs(nu_train, X_star, X_colloc_train, w_pde, net_transform, f_user,
+                      layers, lr, thres, X_test=X_test, u_test=u_test,
+                      resampling='RAD', period=100, save_colloc=False, k_RAD=1, c_RAD=1)
+    model_rad.train(max_epochs=500)
+    prediction_rad = net_transform(X_star, model_rad.net_u)
+    error_rad = np.linalg.norm(prediction_rad - u_star) / np.linalg.norm(u_star)
+    assert error_rad < 1
+
+def test_nonparam_rard():
+    model_rard = PINNs(nu_train, X_star, X_colloc_train, w_pde, net_transform, f_user,
+                       layers, lr, thres, X_test=X_test, u_test=u_test,
+                       resampling='RARD', period=100, save_colloc=False, k_RARD=1, c_RARD=1, m_RARD=5)
+    model_rard.train(max_epochs=500)
+    prediction_rard = net_transform(X_star, model_rard.net_u)
+    error_rard = np.linalg.norm(prediction_rard - u_star) / np.linalg.norm(u_star)
+    assert error_rard < 1

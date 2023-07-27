@@ -6,111 +6,13 @@ import tensorflow as tf
 import shapely
 from shapely.geometry import Point, Polygon
 
-
-class RAD:
+class FBOAL:
     """
-    RAD main class
-    """
-    def __init__(self, X_domain, k, c, X_f, param_pde, model_nn, f_user):
-        """
-        Initialisation function of RAD
-
-        :param X_domain: points inside domain to generate new collocation points for adaptive resampling strategy
-        :type X_domain: numpy.ndarray
-        :param k: hyper-parameter to define collocation points distribution
-        :type k: float
-        :param c: hyper-parameter to define collocation points distribution
-        :type c: float
-        :param X_f: initial collocation points
-        :type X_f: numpy.ndarray
-        :param param_pde: parameter of the PDE
-        :type param_pde: float
-        :param model_nn: neural networks
-        :type model_nn:
-        :param f_user: PDE defined by users
-        :type f_user:
-
-        :returns: Instantiate a RAD caller
-        """
-        self.k = k
-        self.c = c
-        self.X_f = tf.convert_to_tensor(X_f, dtype='float32')
-        self.param_pde = param_pde
-        self.model_nn = model_nn
-        self.f_user = f_user
-        self.X_domain = tf.convert_to_tensor(X_domain, dtype='float32')
-
-    def resampling(self):
-        """
-        Sampling (collocation) points
-
-        :return: new (collocation) points
-        """
-        Y = np.abs(self.f_user(self.X_domain, self.param_pde, self.model_nn).numpy())
-        err_eq = np.power(Y, self.k) / np.power(Y, self.k).mean() + self.c
-        err_eq_normalized = (err_eq / sum(err_eq))[:, 0]
-        X_ids = np.random.choice(a=self.X_domain.shape[0], size=self.X_f.shape[0], replace=False, p=err_eq_normalized)
-        X_selected = tf.gather(self.X_domain, X_ids)
-        return X_selected
-
-
-class RARD:
-    """
-    RARD main class
-    """
-    def __init__(self, X_domain, k, c, m, X_f, param_pde, model_nn, f_user):
-        """
-        Initialisation function of RARD
-
-        :param X_domain: points inside domain to generate new collocation points for adaptive resampling strategy
-        :type X_domain: numpy.ndarray
-        :param k: hyper-parameter to define collocation points distribution
-        :type k: float
-        :param c: hyper-parameter to define collocation points distribution
-        :type c: float
-        :param m: number of added points
-        :type m: int
-        :param X_f: initial collocation points
-        :type X_f: numpy.ndarray
-        :param param_pde: parameter of the PDE
-        :type param_pde: float
-        :param model_nn: neural networks
-        :type model_nn:
-        :param f_user: PDE defined by users
-        :type f_user:
-
-        :returns: Instantiate a RARD caller
-        """
-        self.k = k
-        self.c = c
-        self.m = m
-        self.X_f = tf.convert_to_tensor(X_f, dtype='float32')
-        self.param_pde = param_pde
-        self.model_nn = model_nn
-        self.f_user = f_user
-        self.X_domain = tf.convert_to_tensor(X_domain, dtype='float32')
-
-    def resampling(self):
-        """
-        Sampling (collocation) points
-
-        :return: new (collocation) points
-        """
-        Y = np.abs(self.f_user(self.X_domain, self.param_pde, self.model_nn).numpy())
-        err_eq = np.power(Y, self.k) / np.power(Y, self.k).mean() + self.c
-        err_eq_normalized = (err_eq / sum(err_eq))[:, 0]
-        X_ids = np.random.choice(a=self.X_domain.shape[0], size=self.m, replace=False, p=err_eq_normalized)
-        X_selected = tf.gather(self.X_domain, X_ids)
-        return tf.concat([self.X_f, X_selected], axis=0)
-
-
-class FBOAML:
-    """
-    FBOAML main class
+    FBOAL main class
     """
     def __init__(self, X_domain, m, square_side, X_f, param_pde, model_nn, f_user):
         """
-        Initialisation function of FBOAML
+        Initialisation function of FBOAL
 
         :param X_domain: points inside domain to generate new collocation points for adaptive resampling strategy
         :type X_domain: numpy.ndarray
@@ -229,3 +131,98 @@ class FBOAML:
         self.X_f = self.setdiff2d_bc(self.X_f, X_colloc_rec_min_final)
         self.X_f = tf.concat([self.X_f, X_colloc_rec_max_final], axis=0)
         return self.X_f
+
+class RAD:
+    """
+    RAD main class
+    """
+    def __init__(self, X_domain, k, c, X_f, param_pde, model_nn, f_user):
+        """
+        Initialisation function of RAD
+
+        :param X_domain: points inside domain to generate new collocation points for adaptive resampling strategy
+        :type X_domain: numpy.ndarray
+        :param k: hyper-parameter to define collocation points distribution
+        :type k: float
+        :param c: hyper-parameter to define collocation points distribution
+        :type c: float
+        :param X_f: initial collocation points
+        :type X_f: numpy.ndarray
+        :param param_pde: parameter of the PDE
+        :type param_pde: float
+        :param model_nn: neural networks
+        :type model_nn:
+        :param f_user: PDE defined by users
+        :type f_user:
+
+        :returns: Instantiate a RAD caller
+        """
+        self.k = k
+        self.c = c
+        self.X_f = tf.convert_to_tensor(X_f, dtype='float32')
+        self.param_pde = param_pde
+        self.model_nn = model_nn
+        self.f_user = f_user
+        self.X_domain = tf.convert_to_tensor(X_domain, dtype='float32')
+
+    def resampling(self):
+        """
+        Sampling (collocation) points
+
+        :return: new (collocation) points
+        """
+        Y = np.abs(self.f_user(self.X_domain, self.param_pde, self.model_nn).numpy())
+        err_eq = np.power(Y, self.k) / np.power(Y, self.k).mean() + self.c
+        err_eq_normalized = (err_eq / sum(err_eq))[:, 0]
+        X_ids = np.random.choice(a=self.X_domain.shape[0], size=self.X_f.shape[0], replace=False, p=err_eq_normalized)
+        X_selected = tf.gather(self.X_domain, X_ids)
+        return X_selected
+
+class RARD:
+    """
+    RARD main class
+    """
+    def __init__(self, X_domain, k, c, m, X_f, param_pde, model_nn, f_user):
+        """
+        Initialisation function of RARD
+
+        :param X_domain: points inside domain to generate new collocation points for adaptive resampling strategy
+        :type X_domain: numpy.ndarray
+        :param k: hyper-parameter to define collocation points distribution
+        :type k: float
+        :param c: hyper-parameter to define collocation points distribution
+        :type c: float
+        :param m: number of added points
+        :type m: int
+        :param X_f: initial collocation points
+        :type X_f: numpy.ndarray
+        :param param_pde: parameter of the PDE
+        :type param_pde: float
+        :param model_nn: neural networks
+        :type model_nn:
+        :param f_user: PDE defined by users
+        :type f_user:
+
+        :returns: Instantiate a RARD caller
+        """
+        self.k = k
+        self.c = c
+        self.m = m
+        self.X_f = tf.convert_to_tensor(X_f, dtype='float32')
+        self.param_pde = param_pde
+        self.model_nn = model_nn
+        self.f_user = f_user
+        self.X_domain = tf.convert_to_tensor(X_domain, dtype='float32')
+
+    def resampling(self):
+        """
+        Sampling (collocation) points
+
+        :return: new (collocation) points
+        """
+        Y = np.abs(self.f_user(self.X_domain, self.param_pde, self.model_nn).numpy())
+        err_eq = np.power(Y, self.k) / np.power(Y, self.k).mean() + self.c
+        err_eq_normalized = (err_eq / sum(err_eq))[:, 0]
+        X_ids = np.random.choice(a=self.X_domain.shape[0], size=self.m, replace=False, p=err_eq_normalized)
+        X_selected = tf.gather(self.X_domain, X_ids)
+        return tf.concat([self.X_f, X_selected], axis=0)

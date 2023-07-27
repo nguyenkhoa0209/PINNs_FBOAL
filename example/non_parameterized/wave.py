@@ -97,13 +97,13 @@ model_classic = PINNs(k_train, X_star, X_colloc_train, w_pde, net_transform, f_u
 model_classic.train(max_epochs=5000)
 #model_classic.save('model_classic', save_format='tf')
 
-model_FBOAML = PINNs(k_train, X_star, X_colloc_train, w_pde, net_transform, f_user,
+model_FBOAL = PINNs(k_train, X_star, X_colloc_train, w_pde, net_transform, f_user,
                       layers, lr, thres,
                       X_bc=X_star_bc, u_bc=u_star_bc, X_init=X_star_init, u_init=u_star_init,
                       X_other=X_star_init, u_other=u_star_other, net_other=dt_condition, X_test=X_test, u_test=u_test,
-                 resampling='FBOAML', period=1000, save_colloc=False, m_FBOAML=5, square_side_FBOAML=2)
-model_FBOAML.train(max_epochs=5000)
-#model_FBOAML.save('model_FBOAML', save_format='tf')
+                 resampling='FBOAL', period=1000, save_colloc=False, m_FBOAL=5, square_side_FBOAL=2)
+model_FBOAL.train(max_epochs=5000)
+#model_FBOAL.save('model_FBOAL', save_format='tf')
 
 model_RAD = PINNs(k_train, X_star, X_colloc_train, w_pde, net_transform, f_user,
                       layers, lr, thres,
@@ -125,9 +125,9 @@ prediction_classic = net_transform(X_star, model_classic.net_u)
 error_classic = np.linalg.norm(prediction_classic - u_star)/np.linalg.norm(u_star)
 print('Error by classical PINNs', error_classic)
 
-prediction_FBOAML = net_transform(X_star, model_FBOAML.net_u)
-error_FBOAML = np.linalg.norm(prediction_FBOAML - u_star)/np.linalg.norm(u_star)
-print('Error by PINNs+FBOAML', error_FBOAML)
+prediction_FBOAL = net_transform(X_star, model_FBOAL.net_u)
+error_FBOAL = np.linalg.norm(prediction_FBOAL - u_star)/np.linalg.norm(u_star)
+print('Error by PINNs+FBOAL', error_FBOAL)
 
 prediction_RAD = net_transform(X_star, model_RAD.net_u)
 error_RAD = np.linalg.norm(prediction_RAD - u_star)/np.linalg.norm(u_star)

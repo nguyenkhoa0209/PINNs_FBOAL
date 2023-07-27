@@ -3,7 +3,7 @@ import numpy as np
 import time
 from math import *
 import tensorflow as tf
-from adapt_sampling import FBOAML,RAD,RARD
+from adapt_sampling import FBOAL,RAD,RARD
 
 class PINNs:
     """
@@ -13,7 +13,7 @@ class PINNs:
                  X_bc=None, u_bc=None, X_init=None, u_init=None, X_data=None, u_data=None,
                  X_other=None, u_other=None, net_other=None,X_test=None, u_test=None,
                  resampling=None, period=None, save_colloc=False,
-                 m_FBOAML=None, square_side_FBOAML=None, k_RAD=None, c_RAD=None, k_RARD=None, c_RARD=None, m_RARD=None):
+                 m_FBOAL=None, square_side_FBOAL=None, k_RAD=None, c_RAD=None, k_RARD=None, c_RARD=None, m_RARD=None):
         """
         Initialisation function of PINNs non-parametric class
 
@@ -63,10 +63,10 @@ class PINNs:
         :type period: int
         :param save_colloc: option to save collocation points after each period of resampling
         :type save_colloc: bool
-        :param m_FBOAML: number of added and removed points in FBOAML
-        :type m_FBOAML: int
-        :param square_side_FBOAML: side of sub-domains (squares) in FBOAML
-        :type square_side_FBOAML: float
+        :param m_FBOAL: number of added and removed points in FBOAL
+        :type m_FBOAL: int
+        :param square_side_FBOAL: side of sub-domains (squares) in FBOAL
+        :type square_side_FBOAL: float
         :param k_RAD: hyper-parameter to define collocation points distribution in RAD
         :type k_RAD: float
         :param c_RAD: hyper-parameter to define collocation points distributionin RAD
@@ -135,9 +135,9 @@ class PINNs:
         self.net_pde_user = net_pde_user
         self.w_pde = w_pde
 
-        if resampling == 'FBOAML':
-            if m_FBOAML == None or square_side_FBOAML == None or period == None:
-                raise TypeError("Must provide m_FBOAML, square_side_FBOAML and period")
+        if resampling == 'FBOAL':
+            if m_FBOAL == None or square_side_FBOAL == None or period == None:
+                raise TypeError("Must provide m_FBOAL, square_side_FBOAL and period")
         elif resampling == 'RAD':
             if k_RAD == None or c_RAD == None or period == None:
                 raise TypeError("Must provide k_RAD, c_RAD and period")
@@ -152,8 +152,8 @@ class PINNs:
         self.resampling = resampling
         self.period = period
         self.save_colloc = save_colloc
-        self.m_FBOAML = m_FBOAML
-        self.square_side_FBOAML = square_side_FBOAML
+        self.m_FBOAL = m_FBOAL
+        self.square_side_FBOAL = square_side_FBOAL
         self.k_RAD = k_RAD
         self.c_RAD = c_RAD
         self.k_RARD = k_RARD
@@ -359,10 +359,10 @@ class PINNs:
             self.loss_array = np.append(self.loss_array, loss_value.numpy())
             if self.resampling is not None:
                 if ((epoch + 1) % self.period == 0):
-                    if self.resampling == 'FBOAML':
-                        FBOAML_resampling = FBOAML(self.X_domain.numpy(), self.m_FBOAML, self.square_side_FBOAML, self.X_colloc,
+                    if self.resampling == 'FBOAL':
+                        FBOAL_resampling = FBOAL(self.X_domain.numpy(), self.m_FBOAL, self.square_side_FBOAL, self.X_colloc,
                                                    self.param_pde, self.net_u, self.net_pde)
-                        self.X_colloc = FBOAML_resampling.resampling()
+                        self.X_colloc = FBOAL_resampling.resampling()
                     elif self.resampling == 'RAD':
                         RAD_resampling = RAD(self.X_domain.numpy(), self.k_RAD, self.c_RAD, self.X_colloc, self.param_pde,
                                              self.net_u, self.net_pde_user)

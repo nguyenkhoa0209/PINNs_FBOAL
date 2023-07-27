@@ -143,13 +143,13 @@ model_classic = PINNs(k_train, X_star, X_colloc_train, w_pde, net_transform, f_u
 model_classic.train(max_epochs=2000)
 #model_classic.save('model_classic', save_format='tf')
 
-model_FBOAML = PINNs(k_train, X_star, X_colloc_train, w_pde, net_transform, f_user,
+model_FBOAL = PINNs(k_train, X_star, X_colloc_train, w_pde, net_transform, f_user,
                       layers, lr, thres,
                       X_bc=X_star_bc, u_bc=u_star_bc, X_init=X_star_init, u_init=u_star_init,
                       X_other=X_star_init, u_other=u_star_other, net_other=dt_condition, X_test=X_test, u_test=u_test,
-                 resampling='FBOAML', period=500, save_colloc=False, m_FBOAML=5, square_side_FBOAML=0.5)
-model_FBOAML.train(max_epochs=2000)
-#model_FBOAML.save('model_FBOAML', save_format='tf')
+                 resampling='FBOAL', period=500, save_colloc=False, m_FBOAL=5, square_side_FBOAL=0.5)
+model_FBOAL.train(max_epochs=2000)
+#model_FBOAL.save('model_FBOAL', save_format='tf')
 
 model_RAD = PINNs(k_train, X_star, X_colloc_train, w_pde, net_transform, f_user,
                       layers, lr, thres,
@@ -171,7 +171,7 @@ model_RARD.train(max_epochs=2000)
 c_test = np.arange(0.7, 3.2, 0.05)
 
 error_classic = np.array([])
-error_FBOAML = np.array([])
+error_FBOAL = np.array([])
 error_RAD = np.array([])
 error_RARD = np.array([])
 
@@ -188,16 +188,16 @@ for i in range(c_test.shape[0]):
     X_star_test = np.concatenate((X_star_xt, np.repeat(k, X_star_xt.shape[0]).reshape(-1, 1)), axis=1)
 
     out_classic = net_transform(X_star_test, model_classic.net_u)
-    out_FBOAML = net_transform(X_star_test, model_FBOAML.net_u)
+    out_FBOAL = net_transform(X_star_test, model_FBOAL.net_u)
     out_RAD = net_transform(X_star_test, model_RAD.net_u)
     out_RARD = net_transform(X_star_test, model_RARD.net_u)
 
     error_classic = np.append(error_classic, np.linalg.norm(out_classic - u_star) / np.linalg.norm(u_star))
-    error_FBOAML = np.append(error_FBOAML, np.linalg.norm(out_FBOAML - u_star) / np.linalg.norm(u_star))
+    error_FBOAL = np.append(error_FBOAL, np.linalg.norm(out_FBOAL - u_star) / np.linalg.norm(u_star))
     error_RAD = np.append(error_RAD, np.linalg.norm(out_RAD - u_star) / np.linalg.norm(u_star))
     error_RARD = np.append(error_RARD, np.linalg.norm(out_RARD - u_star) / np.linalg.norm(u_star))
 
 print('Error by classical PINNs', error_classic)
-print('Error by PINNs+FBOAML', error_FBOAML)
+print('Error by PINNs+FBOAL', error_FBOAL)
 print('Error by PINNs+RAD', error_RAD)
 print('Error by PINNs+RARD', error_RARD)
