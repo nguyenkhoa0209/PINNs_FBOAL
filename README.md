@@ -68,10 +68,12 @@ For the parametric case where the PDE parameter is considered as an input of PIN
 If you use the method or code for academic research, you are encouraged to cite the following paper:
 
 ```
-@article{nguyen2022fixed,
-  title={Fixed-budget online adaptive learning for physics-informed neural networks. Towards parameterized problem inference},
+@inproceedings{nguyen2023fixed,
+  title={Fixed-Budget Online Adaptive Learning for Physics-Informed Neural Networks. Towards Parameterized Problem Inference},
   author={Nguyen, Thi Nguyen Khoa and Dairay, Thibault and Meunier, Rapha{\"e}l and Millet, Christophe and Mougeot, Mathilde},
-  journal={arXiv preprint arXiv:2212.11776},
-  year={2022}
+  booktitle={International Conference on Computational Science},
+  pages={453--468},
+  year={2023},
+  organization={Springer}
 }
 ```
